@@ -11,15 +11,18 @@ interface EmailOptions {
 
 @Injectable()
 export class EmailService {
-  private transporter: Mail;
+  private readonly transporter: Mail;
 
   constructor() {
     this.transporter = nodeemailer.createTransport({
-      service: 'Gmail',
+      host: 'smtp.gmail.com',
+      // service: 'Gmail',
+      port: 465,
       auth: {
         user: process.env.EMAIL,
         pass: process.env.EMAIL_PASSWORD,
       },
+      secure: true,
     });
   }
 
@@ -30,8 +33,8 @@ export class EmailService {
     const baseUrl = `http://localhost:${process.env.PORT}`;
 
     const url = `${baseUrl}/v1/users/email-verify?signupVerifyToken=${signupVerifyToken}`;
-    console.log('trans', this.transporter);
-    
+    // console.log('trans', this.transporter);
+
     const mailOptions: EmailOptions = {
       to: emailAddress,
       subject: '가입 인증 메일',
@@ -42,7 +45,7 @@ export class EmailService {
         </form>
       `,
     };
-    
+
     return await this.transporter.sendMail(mailOptions);
   }
 }

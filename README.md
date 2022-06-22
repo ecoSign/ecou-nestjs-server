@@ -19,8 +19,6 @@ $ npm run start:prod
 
 ## Etc
 ```bash
-controller -> service -> repository -> entity(테이블)
-
 아키텍처 구조
 controller -> service -> repository -> entity(모델(=테이블))
 
@@ -30,11 +28,11 @@ url을 가져오고 function을 return, express의 라우터 역할, 요청과 �
 Service
 실제로 function을 가지는 부분, 비즈니스(e.g. 영화) 로직을 관리하는 역할, 요청과 응답에 대해서 몰라야됩니다
 
-Repository
-Entity에 의해 생성된 DB에 접근하는 메서드 들을 사용하기 위한 인터페이스
-
 Entity
 데이터베이스에 저장되는 데이터의 형태를 보여주는 모델을 의미합니다.
+
+Repository
+Entity에 의해 생성된 DB에 접근하는 메서드 들을 사용하기 위한 인터페이스
 
 Single-responsibility principle
 하나의 module, class 혹은 function이 하나의 기능은
