@@ -2,20 +2,22 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Post } from '../../posts/entities/post.entity';
 
-@Entity('User')
-export class UserEntity {
+@Entity('users')
+export class User {
   @ApiProperty({
-    required: true,
     example: 1,
     description: '사용자 아이디',
   })
-  @PrimaryColumn()
-  id: string;
+  @PrimaryColumn({ type: 'int', name: 'id' })
+  id: number;
 
   @ApiProperty({
     required: true,
@@ -34,8 +36,13 @@ export class UserEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
+  // @Column('date', {default: () => 'CURRENT_TIMESTAMP'})
+  @DeleteDateColumn() // softDelete <-> hardDelete
   deletedAt: Date | null;
 
   @Column({ length: 60 })
   signupVerifyToken: string;
+
+  @OneToMany(() => Post, (posts) => posts.Owner)
+  Posts: Post[];
 }

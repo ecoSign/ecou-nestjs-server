@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -26,6 +27,7 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Post()
+  // @UseFilters(new HttpExceptionFilter())
   async createUser(@Body() dto: CreateUserDto): Promise<void> {
     const { nickname, email, password } = dto;
     console.log(dto);
@@ -58,6 +60,9 @@ export class UsersController {
 
   @Get(':id')
   async getUserInfo(@Param('id') userId: string): Promise<void> {
+    if (+userId < 1) {
+      throw new BadRequestException('id는 0보다 큰 값이어야 합니다.');
+    }
     return await this.usersService.getUserInfo(userId);
   }
 

@@ -4,6 +4,8 @@ import { setupSwagger } from './util/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // app.useGlobalFilters(new AllExceptionsFilter());
+  // app.useGlobalFilters(new HttpExceptionFilter());
   const port = process.env.PORT || 3000;
 
   setupSwagger(app);

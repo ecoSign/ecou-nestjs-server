@@ -6,6 +6,10 @@ import { UsersModule } from './users/users.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmailService } from './email/email.service';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpExceptionFilter } from './exceptions/http-exception.filter';
+import { PostsModule } from './posts/posts.module';
+import { AllExceptionsFilter } from './exceptions/all-exceptions.filter';
 
 @Module({
   imports: [
@@ -29,14 +33,19 @@ import { EmailService } from './email/email.service';
       synchronize: Boolean(process.env.DATABASE_SYNCHRONIZE),
     }),
     UsersModule,
+    PostsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    // { provide: APP_FILTER, useClass: AllExceptionsFilter },
+  ],
 })
 
 // export class AppModule {}
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): any {
     consumer.apply(LoggerMiddleware).forRoutes('*');
+    // consumer.apply(cors(), helmet(), LoggerMiddleware).forRoutes('*');
   }
 }
