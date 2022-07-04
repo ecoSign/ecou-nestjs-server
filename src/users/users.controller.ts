@@ -11,6 +11,7 @@ import {
   Query,
   Res,
   Scope,
+  Response,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -20,14 +21,13 @@ import { VerifyEmailDto } from './dto/verify-email.dto';
 // import { UserInfo } from 'os';
 
 // Scope.REQUEST, Scope.TRANSIENT
-// @Controller('v1/users')
-@Controller({ path: 'v1/users', scope: Scope.DEFAULT })
 @ApiTags('유저 API')
+@Controller({ path: 'v1/users', scope: Scope.DEFAULT })
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @Post()
   // @UseFilters(new HttpExceptionFilter())
+  @Post()
   async createUser(@Body() dto: CreateUserDto): Promise<void> {
     const { nickname, email, password } = dto;
     console.log(dto);
@@ -44,6 +44,7 @@ export class UsersController {
 
   @Post('/login')
   async login(email: string, password: string): Promise<string> {
+    return await this.usersService.login(email, password)
     // TODO
     // 1. email, password를 가진 유저가 존재하는지 DB에서 확인하고 없다면 에러 처리
     // 2. JWT를 발급
@@ -52,13 +53,13 @@ export class UsersController {
   }
 
   @Get()
-  findAll(@Res() res) {
+  findAll(@Res() res: Response) {
     // const users = this.usersService.findAll()
     // return res.status(200).send(users)
     // return this.usersService.findAll();
   }
 
-  @Get(':id')
+  @Get('/:id')
   async getUserInfo(@Param('id') userId: string): Promise<void> {
     if (+userId < 1) {
       throw new BadRequestException('id는 0보다 큰 값이어야 합니다.');
@@ -74,6 +75,7 @@ export class UsersController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
+    // remove(@Param() params: {[key: string]: string}) {
     return this.usersService.remove(+id);
   }
 }
