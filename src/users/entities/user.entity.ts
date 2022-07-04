@@ -8,16 +8,16 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Post } from '../../posts/entities/post.entity';
+import { PostEntity } from '../../posts/entities/post.entity';
 
-@Entity('users')
-export class User {
+@Entity('User')
+export class UserEntity {
   @ApiProperty({
     example: 1,
     description: '사용자 아이디',
   })
-  @PrimaryColumn({ type: 'int', name: 'id' })
-  id: number;
+  @PrimaryColumn({ name: 'id' })
+  id: string;
 
   @ApiProperty({
     required: true,
@@ -26,6 +26,14 @@ export class User {
   })
   @Column('varchar', { name: 'nickname', length: 30 })
   nickname: string;
+
+  @ApiProperty({
+    required: true,
+    example: 'temp7045@gmail.com',
+    description: '이메일',
+  })
+  @Column('varchar', { name: 'email', unique: true, length: 60 })
+  email: string;
 
   @Column('varchar', { name: 'password', length: 100 })
   password: string;
@@ -43,6 +51,6 @@ export class User {
   @Column({ length: 60 })
   signupVerifyToken: string;
 
-  @OneToMany(() => Post, (posts) => posts.Owner)
-  Posts: Post[];
+  @OneToMany(() => PostEntity, (posts) => posts.Owner)
+  Posts: PostEntity[];
 }

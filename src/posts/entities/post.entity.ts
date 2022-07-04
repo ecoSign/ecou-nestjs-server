@@ -8,11 +8,11 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { User } from '../../users/entities/user.entity';
+import { UserEntity } from '../../users/entities/user.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
-@Entity('posts')
-export class Post {
+@Entity('Post')
+export class PostEntity {
   @ApiProperty({
     required: true,
     example: 1,
@@ -46,10 +46,10 @@ export class Post {
   @DeleteDateColumn()
   deletedAt: Date | null;
 
-  @ManyToOne(() => User, (users) => users.id, {
+  @ManyToOne(() => UserEntity, (users) => users.id, {
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   })
   @JoinColumn([{ name: 'OwnerId', referencedColumnName: 'id' }])
-  Owner: User;
+  Owner: UserEntity;
 }
