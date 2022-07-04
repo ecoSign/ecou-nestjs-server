@@ -18,6 +18,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { VerifyEmailDto } from './dto/verify-email.dto';
+import { UserInfo } from './UserInfo';
 // import { UserInfo } from 'os';
 
 // Scope.REQUEST, Scope.TRANSIENT
@@ -44,7 +45,7 @@ export class UsersController {
 
   @Post('/login')
   async login(email: string, password: string): Promise<string> {
-    return await this.usersService.login(email, password)
+    // return await this.usersService.login(email, password);
     // TODO
     // 1. email, password를 가진 유저가 존재하는지 DB에서 확인하고 없다면 에러 처리
     // 2. JWT를 발급
@@ -60,7 +61,7 @@ export class UsersController {
   }
 
   @Get('/:id')
-  async getUserInfo(@Param('id') userId: string): Promise<void> {
+  async getUserInfo(@Param('id') userId: string): Promise<UserInfo> {
     if (+userId < 1) {
       throw new BadRequestException('id는 0보다 큰 값이어야 합니다.');
     }
