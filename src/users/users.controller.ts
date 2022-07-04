@@ -9,9 +9,9 @@ import {
   Patch,
   Post,
   Query,
-  Res,
   Scope,
-  Response,
+  DefaultValuePipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -19,6 +19,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { UserInfo } from './UserInfo';
+import { ValidationPipe } from '../validation.pipe';
 // import { UserInfo } from 'os';
 
 // Scope.REQUEST, Scope.TRANSIENT
@@ -29,17 +30,18 @@ export class UsersController {
 
   // @UseFilters(new HttpExceptionFilter())
   @Post()
-  async createUser(@Body() dto: CreateUserDto): Promise<void> {
-    const { nickname, email, password } = dto;
-    console.log(dto);
+  async create(@Body() createUserDto: CreateUserDto): Promise<void> {
+    const { nickname, email, password } = createUserDto;
+    console.log(createUserDto);
 
+    // await this.usersService.createUser(createUserDto);
     await this.usersService.createUser(nickname, email, password);
   }
 
   @Post('/email-verify')
   async verifyEmail(@Query() dto: VerifyEmailDto): Promise<string> {
     const { signupVerifyToken } = dto;
-    console.log(dto);
+    // console.log(dto);
     return await this.usersService.verifyEmail(signupVerifyToken);
   }
 
@@ -49,10 +51,20 @@ export class UsersController {
   }
 
   @Get()
-  findAll(@Res() res: Response) {
+  // findAll(@Res() res: Response) {
+  findAll(
+    @Query('offset', new DefaultValuePipe(0), ParseIntPipe) offset: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number
+  ) {
+    console.log(offset, limit);
     // const users = this.usersService.findAll()
     // return res.status(200).send(users)
-    // return this.usersService.findAll();
+    return this.usersService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id', ValidationPipe) id: number) {
+    return this.usersService.findOne(id);
   }
 
   @Get('/:id')

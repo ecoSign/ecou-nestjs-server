@@ -11,17 +11,21 @@ import { HttpExceptionFilter } from './exceptions/http-exception.filter';
 import { PostsModule } from './posts/posts.module';
 import { AllExceptionsFilter } from './exceptions/all-exceptions.filter';
 import { EmailModule } from './email/email.module';
+import emailConfig from './config/emailConfig';
+import { validationSchema } from './config/validationSchema';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath:
-        process.env.NODE_ENV === 'production'
-          ? '.production.env'
-          : process.env.NODE_ENV === 'stage'
-          ? '.stage.env'
-          : '.development.env',
+      envFilePath: [`${__dirname}/config/env/.${process.env.NODE_ENV}.env`],
+      load: [emailConfig],
       isGlobal: true, // 모든 모듈에서 env 사용가능하도록
+      validationSchema,
+      // process.env.NODE_ENV === 'production'
+      //   ? '.production.env'
+      //   : process.env.NODE_ENV === 'stage'
+      //   ? '.stage.env'
+      //   : '.development.env',
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -40,6 +44,7 @@ import { EmailModule } from './email/email.module';
   controllers: [AppController],
   providers: [
     AppService,
+    ConfigService,
     // { provide: APP_FILTER, useClass: AllExceptionsFilter },
   ],
 })

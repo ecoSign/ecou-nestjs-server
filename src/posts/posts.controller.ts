@@ -6,6 +6,10 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
+  HttpStatus,
+  Query,
+  DefaultValuePipe,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -21,12 +25,21 @@ export class PostsController {
   }
 
   @Get()
-  findAll() {
+  findAll(
+    @Query('offset', new DefaultValuePipe(0), ParseIntPipe) offset: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number
+  ) {
     return this.postsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(
+    @Param(
+      'id',
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })
+    )
+    id: string
+  ) {
     return this.postsService.findOne(+id);
   }
 
