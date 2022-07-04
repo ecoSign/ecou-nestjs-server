@@ -74,4 +74,12 @@ export class UsersService {
   remove(id: number) {
     return `This action removes a #${id} user`;
   }
+
+  async login(email: string, password: string): Promise<string> {
+    // TODO
+    // 1. email, password를 가진 유저가 존재하는지 DB에서 확인하고 없다면 에러 처리
+    // 2. JWT를 발급
+
+    throw new Error('Method not implemented.');
+  }
 }

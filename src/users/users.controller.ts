@@ -45,12 +45,7 @@ export class UsersController {
 
   @Post('/login')
   async login(email: string, password: string): Promise<string> {
-    // return await this.usersService.login(email, password);
-    // TODO
-    // 1. email, password를 가진 유저가 존재하는지 DB에서 확인하고 없다면 에러 처리
-    // 2. JWT를 발급
-
-    throw new Error('Method not implemented.');
+    return await this.usersService.login(email, password);
   }
 
   @Get()
