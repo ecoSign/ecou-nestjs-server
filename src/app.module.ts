@@ -10,6 +10,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './exceptions/http-exception.filter';
 import { PostsModule } from './posts/posts.module';
 import { AllExceptionsFilter } from './exceptions/all-exceptions.filter';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { AllExceptionsFilter } from './exceptions/all-exceptions.filter';
     }),
     UsersModule,
     PostsModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [
