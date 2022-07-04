@@ -8,6 +8,7 @@ import {
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { BadRequestException } from '@nestjs/common';
+import { NotIn } from '../../utils/decorators/not-in';
 
 export class CreateUserDto {
   // @ApiProperty({
@@ -25,6 +26,9 @@ export class CreateUserDto {
   @Transform((params) => {
     // console.log(params);
     return params.value.trim();
+  })
+  @NotIn('password', {
+    message: 'password는 nickname과 같은 문자열을 포함할 수 없습니다.',
   })
   @IsString()
   @MinLength(2)
