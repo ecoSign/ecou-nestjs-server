@@ -1,7 +1,5 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-// import { InjectRepository } from '@nestjs/typeorm';
 import * as uuid from 'uuid';
 import { EmailService } from '../email/email.service';
 import { UserInfo } from './UserInfo';
