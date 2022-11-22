@@ -53,7 +53,7 @@ export class CreateUserDto {
   @Transform(({ value, obj }) => {
     if (value.includes(obj.nickname.trim())) {
       throw new BadRequestException(
-        'password는 nickname과 같은 문자열을 포함할 수 없습니다.'
+        'password는 nickname과 같은 문자열을 포함할 수 없습니다.',
       );
     }
     return value.trim();

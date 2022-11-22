@@ -15,7 +15,7 @@ export class EmailService {
   private readonly transporter: Mail;
 
   constructor(
-    @Inject(emailConfig.KEY) private config: ConfigType<typeof emailConfig>
+    @Inject(emailConfig.KEY) private config: ConfigType<typeof emailConfig>,
   ) {
     this.transporter = nodeemailer.createTransport({
       host: 'smtp.gmail.com',
@@ -31,7 +31,7 @@ export class EmailService {
 
   async sendMemberJoinVerification(
     emailAddress: string,
-    signupVerifyToken: string
+    signupVerifyToken: string,
   ) {
     const baseUrl = this.config.baseUrl;
     // const baseUrl = `http://localhost:${process.env.PORT}`;

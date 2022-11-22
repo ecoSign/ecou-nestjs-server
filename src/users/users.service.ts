@@ -1,4 +1,8 @@
-import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as uuid from 'uuid';
 import { EmailService } from '../email/email.service';
@@ -13,7 +17,7 @@ export class UsersService {
   constructor(
     private emailService: EmailService,
     @InjectRepository(UserEntity)
-    private usersRepository: Repository<UserEntity>
+    private usersRepository: Repository<UserEntity>,
   ) {}
 
   // constructor(
@@ -22,10 +26,10 @@ export class UsersService {
   // ) {}
 
   async createUser(nickname: string, email: string, password: string) {
-    const userExist = await this.checkUserExists(email);
-    if (userExist) {
+    const isUserExist = await this.checkUserExists(email);
+    if (isUserExist) {
       throw new UnprocessableEntityException(
-        '해당 이메일로는 가입할 수 없습니다.'
+        '해당 이메일로는 가입할 수 없습니다.',
       );
     }
 
@@ -48,7 +52,7 @@ export class UsersService {
     nickname: string,
     email: string,
     password: string,
-    signupVerifyToken: string
+    signupVerifyToken: string,
   ) {
     const user = new UserEntity();
     user.id = ulid();
@@ -62,7 +66,7 @@ export class UsersService {
   private async sendMemberJoinEmail(email: string, signupVerifyToken: string) {
     await this.emailService.sendMemberJoinVerification(
       email,
-      signupVerifyToken
+      signupVerifyToken,
     );
   }
 
@@ -75,34 +79,41 @@ export class UsersService {
     throw new Error('Method not implemented.');
   }
 
-  async getUserInfo(userId: string): Promise<UserInfo> {
+  findAll(): Promise<UserEntity[]> {
+    return this.usersRepository.find();
+  }
+
+  findOne(id: string): Promise<UserInfo> {
     // 1. userId를 가진 유저가 존재하는지 DB에서 확인하고 없다면 에러 처리
-    // 2. 조회된 데이터를 UserInfo 타입으로 응답
-
-    throw new Error('Method not implemented.');
+    const user = this.usersRepository.findOne({ id });
+    if (!user) {
+      throw new NotFoundException('유저가 존재하지 않습니다.');
+    }
+    return user;
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<UserInfo> {
+    const user = await this.usersRepository.findOne({ id });
+    if (!user) throw new NotFoundException(`유저가 존재하지 않습니다.`);
+    await this.usersRepository.save(user);
+    return user;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async remove(id: string): Promise<void> {
+    await this.usersRepository.delete(id);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
+  async login(email: string, password: string): Promise<UserInfo> {
+    const user = await this.usersRepository.findOne({
+      where: {
+        email,
+        password,
+      },
+    });
+    if (!user) throw new NotFoundException(`유저가 존재하지 않습니다.`);
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
-
-  async login(email: string, password: string): Promise<string> {
     // TODO
-    // 1. email, password를 가진 유저가 존재하는지 DB에서 확인하고 없다면 에러 처리
     // 2. JWT를 발급
-
-    throw new Error('Method not implemented.');
+    return user;
   }
 }

@@ -19,6 +19,7 @@ const ormConfig: TypeOrmModuleOptions = {
     migrationsDir: 'src/migrations',
   },
   migrationsTableName: 'migrations',
+  autoLoadEntities: true,
 };
 
 export default ormConfig;
