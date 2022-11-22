@@ -1,5 +1,13 @@
 version: '3.1'
 services:
+  api:
+    build:
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/src/ecou-nestjs-server
+    depends_on:
+      - db
+      - redis
   db:
     image: postgres
     restart: always
@@ -21,7 +29,7 @@ services:
     image: adminer
     restart: always
     ports:
-      - 8090:8090
+      - 8080:8080
 volumes:
   redis:
     driver: local

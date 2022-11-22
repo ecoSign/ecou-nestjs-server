@@ -37,6 +37,4 @@ lerna-debug.log*
 src/config/env/
 .env
 
-ormconfig.json
-
 .history/

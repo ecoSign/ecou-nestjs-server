@@ -1,5 +1,7 @@
 import { CacheModule, Module } from '@nestjs/common';
 import * as redisStore from 'cache-manager-redis-store';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 const cacheModule = CacheModule.register({
   useFactory: () => ({

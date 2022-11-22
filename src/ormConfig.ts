@@ -11,8 +11,7 @@ const ormConfig: TypeOrmModuleOptions = {
   database: process.env.POSTGRES_DB,
   logging: true,
   entities: [__dirname + '/**/*.entity{.ts,.js}'],
-  // synchronize: Boolean(process.env.DATABASE_SYNCHRONIZE),
-  synchronize: true,
+  synchronize: Boolean(process.env.DATABASE_SYNCHRONIZE),
 
   migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
   cli: {

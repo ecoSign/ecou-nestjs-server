@@ -11,6 +11,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { ulid } from 'ulid';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -58,7 +59,7 @@ export class UsersService {
     user.id = ulid();
     user.nickname = nickname;
     user.email = email;
-    user.password = password;
+    user.password = await bcrypt.hash(password, 10);
     user.signupVerifyToken = signupVerifyToken;
     await this.usersRepository.save(user);
   }

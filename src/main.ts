@@ -14,7 +14,7 @@ async function bootstrap() {
   // app.useGlobalPipes(new ValidationPipe())
   // app.useGlobalFilters(new AllExceptionsFilter());
   // app.useGlobalFilters(new HttpExceptionFilter());
-  const port = process.env.PORT || 8080;
+  const port = process.env.PORT || 8000;
   setupSwagger(app);
 
   await app.listen(port);
