@@ -9,8 +9,13 @@ describe('UsersController', () => {
   let usersService: UsersService;
 
   beforeEach(async () => {
-    usersService = new UsersService(new EmailService(), UserEntity);
-    usersController = new UsersController(usersService);
+    const moduleRef = await Test.createTestingModule({
+      controllers: [UsersController],
+      providers: [UsersService],
+    }).compile();
+
+    usersService = moduleRef.get<UsersService>(UsersService);
+    usersController = moduleRef.get<UsersController>(UsersController);
   });
 
   describe('findAll', () => {
