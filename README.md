@@ -3,7 +3,7 @@
 </p>
 
 ## Description
-[ecosign-server](https://github.com/kimja7045/ecosign-server) repository with nestJs.
+[ecou-server](https://github.com/kimja7045/ecou-nestjs-server) repository with nestJs.
 
 ## Running the app
 ```bash
