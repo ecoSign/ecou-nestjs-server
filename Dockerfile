@@ -5,7 +5,7 @@ WORKDIR /usr/src/ecou-nestjs-server
 COPY package*.json ./
 
 # pm2설치
-RUN npm install --global pm2
+RUN npm install --global npm@9.1.2 pm2
 
 # bcrypt사용을 위한 python 설치
 RUN apk add --no-cache --virtual .gyp python make g++ pkgconfig pixman-dev cairo-dev pango-dev
@@ -25,7 +25,7 @@ WORKDIR /usr/src/ecou-nestjs-server
 COPY package*.json ./
 
 # pm2설치
-RUN npm install --global pm2
+RUN npm install --global npm@9.1.2 pm2
 
 # bcrypt사용을 위한 python 설치
 RUN apk add --no-cache --virtual .gyp python make g++ pkgconfig pixman-dev cairo-dev pango-dev
