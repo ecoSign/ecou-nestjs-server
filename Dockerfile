@@ -35,7 +35,7 @@ COPY . .
 
 COPY --from=development /usr/src/ecou-nestjs-server/dist ./dist
 
-EXPOSE 8000
+#EXPOSE 8000
 
 # pm2-runtime으로 실행
-CMD ["pm2-runtime", "start", "ecosystem.config.js", "--env", "production"]
+#CMD ["pm2-runtime", "start", "ecosystem.config.js", "--env", "production"]
