@@ -6,6 +6,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "rimraf": "./node_modules/rimraf/bin.js",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "deploy": "npm i --force && npm run build && npx pm2 start dist/main.js",
