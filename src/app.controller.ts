@@ -5,9 +5,8 @@ import { ConfigService } from '@nestjs/config';
 @Controller()
 export class AppController {
   constructor(
-    private readonly appService: AppService
-  ) // private readonly configService: ConfigService
-  {}
+    private readonly appService: AppService, // private readonly configService: ConfigService
+  ) {}
 
   @Get()
   getHello(): string {
@@ -16,6 +15,6 @@ export class AppController {
 
   // @Get('/db-host-from-config')
   // getDatabaseHostFromConfigService(): string {
-  //   return this.configService.get('DATABASE_HOST');
+  //   return this.configService.get('POSTGRES_DB');
   // }
 }
