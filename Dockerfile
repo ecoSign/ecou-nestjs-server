@@ -4,7 +4,7 @@ WORKDIR /usr/src/ecou-nestjs-server
 
 COPY package*.json ./
 
-RUN npm install -g rimraf npm@9.1.2 pm2
+RUN npm i npm@9.1.2 && npm i
 
 # bcrypt사용을 위한 python 설치
 #RUN apk add --no-cache --virtual .gyp python make g++ pkgconfig pixman-dev cairo-dev pango-dev
@@ -23,7 +23,7 @@ WORKDIR /usr/src/ecou-nestjs-server
 
 COPY package*.json ./
 
-RUN npm install --global rimraf npm@9.1.2 pm2
+RUN npm i npm@9.1.2 && npm i
 
 # bcrypt사용을 위한 python 설치
 #RUN apk add --no-cache --virtual .gyp python make g++ pkgconfig pixman-dev cairo-dev pango-dev
