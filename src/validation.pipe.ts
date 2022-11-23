@@ -13,7 +13,7 @@ export class ValidationPipe implements PipeTransform<any> {
     if (!metatype || !this.toValidate(metatype)) {
       return value;
     }
-    console.log(value); // 현재 파이프에 전달된 인자
+    console.log('ValidationPipe value', value); // 현재 파이프에 전달된 인자
     // console.log(metadata); // 현재 파이프에 전달된 인자의 메타데이터
 
     const object = plainToClass(metatype, value);

@@ -8,8 +8,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
  */
 export function setupSwagger(app: INestApplication): void {
   const config = new DocumentBuilder()
-    .setTitle('EcoSign API')
-    .setDescription('EcoSign 서버 개발을 위한 API 문서입니다.')
+    .setTitle('Ecou API')
+    .setDescription('Ecou 서버 개발을 위한 API 문서입니다.')
     .setVersion('1.0')
     // .addTag('cats')
     .build();
