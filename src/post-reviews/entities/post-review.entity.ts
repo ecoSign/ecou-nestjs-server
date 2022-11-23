@@ -5,31 +5,22 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { UserEntity } from '../../users/entities/user.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { PostReviewEntity } from '../../post-reviews/entities/post-review.entity';
+import { PostEntity } from '../../posts/entities/post.entity';
 
-@Entity('Post')
-export class PostEntity {
+@Entity('PostReview')
+export class PostReviewEntity {
   @ApiProperty({
     required: true,
     example: 1,
-    description: '게시물 아이디',
+    description: '리뷰 아이디',
   })
   @PrimaryColumn({ type: 'int', name: 'id' })
   id: number;
-
-  @ApiProperty({
-    required: true,
-    example: '제목1',
-    description: '제목',
-  })
-  @Column('varchar', { name: 'title', length: 50 })
-  title: string;
 
   @ApiProperty({
     required: true,
@@ -48,12 +39,10 @@ export class PostEntity {
   @DeleteDateColumn()
   deletedAt: Date | null;
 
-  @ManyToOne(() => UserEntity, (users) => users.id, {
+  @ManyToOne(() => PostEntity, (posts) => posts.id, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  @OneToMany(() => PostReviewEntity, (postReviews) => postReviews.Post)
-  PostReviews: PostReviewEntity[];
-  @JoinColumn([{ name: 'OwnerId', referencedColumnName: 'id' }])
-  Owner: UserEntity;
+  @JoinColumn([{ name: 'PostId', referencedColumnName: 'id' }])
+  Post: PostEntity;
 }

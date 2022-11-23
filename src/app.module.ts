@@ -13,6 +13,7 @@ import { EmailModule } from './email/email.module';
 import emailConfig from './config/emailConfig';
 import { validationSchema } from './config/validationSchema';
 import { RedisCacheModule } from './middlewares/redis-cache.module';
+import { PostReviewsModule } from './post-reviews/post-reviews.module';
 import ormConfig from './ormConfig';
 
 @Module({
@@ -34,6 +35,7 @@ import ormConfig from './ormConfig';
     UsersModule,
     PostsModule,
     EmailModule,
+    PostReviewsModule,
   ],
   controllers: [AppController],
   providers: [
