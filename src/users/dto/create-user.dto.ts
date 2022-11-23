@@ -11,13 +11,6 @@ import { BadRequestException } from '@nestjs/common';
 import { NotIn } from '../../utils/decorators/not-in';
 
 export class CreateUserDto {
-  // @ApiProperty({
-  //   required: true,
-  //   example: 1,
-  //   description: '아이디',
-  // })
-  // id: number;
-
   @ApiProperty({
     required: true,
     example: 'luke',

@@ -14,6 +14,7 @@ import {
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { PostEntity } from './entities/post.entity';
 
 @Controller('v1/posts')
 export class PostsController {
@@ -27,8 +28,8 @@ export class PostsController {
   @Get()
   findAll(
     @Query('offset', new DefaultValuePipe(0), ParseIntPipe) offset: number,
-    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number
-  ) {
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+  ): Promise<PostEntity[]> {
     return this.postsService.findAll();
   }
 
@@ -36,9 +37,9 @@ export class PostsController {
   findOne(
     @Param(
       'id',
-      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE })
+      new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
     )
-    id: string
+    id: string,
   ) {
     return this.postsService.findOne(+id);
   }
