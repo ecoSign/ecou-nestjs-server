@@ -1,20 +1,20 @@
 version: '3.1'
 services:
-  api:
-    build:
-      dockerfile: Dockerfile
-      context: .
-    volumes:
-      - .:/usr/src/ecou-nestjs-server
-    env_file:
-      - .env
-    command:
-      - "pm2-runtime start ecosystem.config.js --env production"
-    ports:
-      - '8000:8000'
-    depends_on:
-      - db
-      - redis
+#  api:
+#    build:
+#      dockerfile: Dockerfile
+#      context: .
+#    volumes:
+#      - .:/usr/src/ecou-nestjs-server
+#    env_file:
+#      - .env
+#    command:
+#      - "pm2-runtime start ecosystem.config.js --env production"
+#    ports:
+#      - '8000:8000'
+#    depends_on:
+#      - db
+#      - redis
   db:
     image: postgres
     restart: always
