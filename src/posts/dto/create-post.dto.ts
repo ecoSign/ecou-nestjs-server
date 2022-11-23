@@ -28,5 +28,5 @@ export class CreatePostDto {
   })
   @IsString()
   @MinLength(1)
-  readonly userId: string;
+  readonly OwnerId: string;
 }

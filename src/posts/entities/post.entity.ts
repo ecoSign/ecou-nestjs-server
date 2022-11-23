@@ -39,6 +39,9 @@ export class PostEntity {
   @Column('text', { name: 'content' })
   content: string;
 
+  @Column('varchar', { name: 'OwnerId' })
+  OwnerId: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
