@@ -82,14 +82,11 @@ export class UsersService {
 
   async verifyEmail(signupVerifyToken: string): Promise<string> {
     const user = await this.usersRepository.findOne({ signupVerifyToken });
-    console.log('user', user);
 
     if (!user) {
       throw new NotFoundException('유저가 존재하지 않습니다');
     }
 
-    // TODO
-    // 2. 바로 로그인 상태가 되도록 JWT를 발급
     return this.authService.login({
       id: user.id,
       nickname: user.nickname,

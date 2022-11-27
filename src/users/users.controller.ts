@@ -23,17 +23,13 @@ import { UserInfo } from './UserInfo';
 import { ValidationPipe } from '../validation.pipe';
 import { UserEntity } from './entities/user.entity';
 import { UserLoginDto } from './dto/user-login.dto';
-import { AuthService } from '../auth/auth.service';
 import { AuthGuard } from '../auth/auth.guard';
 
 // Scope.REQUEST, Scope.TRANSIENT
 @ApiTags('유저 API')
 @Controller({ path: 'v1/users', scope: Scope.DEFAULT })
 export class UsersController {
-  constructor(
-    private usersService: UsersService,
-    private authService: AuthService,
-  ) {}
+  constructor(private usersService: UsersService) {}
 
   // @UseFilters(new HttpExceptionFilter())
   @Post()

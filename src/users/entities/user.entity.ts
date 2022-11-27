@@ -51,6 +51,6 @@ export class UserEntity {
   @Column({ length: 60 })
   signupVerifyToken: string;
 
-  @OneToMany(() => PostEntity, (posts) => posts.Owner)
+  @OneToMany(() => PostEntity, (posts) => posts.Owner, {})
   Posts: PostEntity[];
 }

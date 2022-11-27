@@ -1,26 +1,32 @@
-import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  Logger,
+  LoggerService,
+  NestMiddleware,
+} from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 
-//실무에서는 그냥 nest morgan 추천
-// @Injectable
+@Injectable()
 export class LoggerMiddleware implements NestMiddleware<Request, Response> {
-  private logger = new Logger('HTTP');
+  constructor(@Inject(Logger) private readonly logger: LoggerService) {}
+  // private logger = new Logger('HTTP');
 
   // 이 미들웨어는 라우터보다 더 먼저 실행됨
   use(request: Request, response: Response, next: NextFunction): void {
-    //라우터 시작할 때  기록
+    // 요청 객체로부터 ip, http method, url, user agent를 받아온 후
     const { ip, method, originalUrl } = request;
-    const userAgent = request.get('user-agent') || '';
+    const userAgent = request.get('user-agent');
 
-    //라우터 끝날 때 기록
+    // 응답이 끝나는 이벤트가 발생하면 로그를 찍는다.
     response.on('finish', () => {
       const { statusCode } = response;
-      const contentLength = response.get('content-length');
+      // const contentLength = response.get('content-length');
 
       //   this.logger.log(
       this.logger.log(
         // `${method} ${originalUrl} ${statusCode} ${contentLength} - ${userAgent} ${ip}`
-        `${method} ${originalUrl} ${statusCode} - ${userAgent} ${ip}`
+        `${method} ${originalUrl} ${statusCode} - ${ip} ${userAgent}`,
       );
     });
 

@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken';
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import authConfig from 'src/config/authConfig';
 import { ConfigType } from '@nestjs/config';
+import authConfig from '../config/authConfig';
 
 interface User {
   id: string;
@@ -23,11 +23,12 @@ export class AuthService {
       ) &
         User;
 
-      const { id, email } = payload;
+      const { id, email, nickname } = payload;
 
       return {
-        userId: id,
+        id,
         email,
+        nickname,
       };
     } catch (e) {
       throw new UnauthorizedException();

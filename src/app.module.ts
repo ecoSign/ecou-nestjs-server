@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Logger, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -9,7 +9,6 @@ import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './exceptions/http-exception.filter';
 import { AllExceptionsFilter } from './exceptions/all-exceptions.filter';
 import { PostsModule } from './posts/posts.module';
-import { EmailModule } from './email/email.module';
 import emailConfig from './config/emailConfig';
 import { validationSchema } from './config/validationSchema';
 import { RedisCacheModule } from './middlewares/redis-cache.module';
@@ -41,6 +40,7 @@ import authConfig from './config/authConfig';
   providers: [
     AppService,
     ConfigService,
+    Logger,
     // { provide: APP_FILTER, useClass: AllExceptionsFilter },
   ],
 })
