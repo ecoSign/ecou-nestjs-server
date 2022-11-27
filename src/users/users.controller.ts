@@ -24,20 +24,23 @@ import { ValidationPipe } from '../validation.pipe';
 import { UserEntity } from './entities/user.entity';
 import { UserLoginDto } from './dto/user-login.dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { CreateUserCommand } from './command/create-user.command';
+import { GetUserInfoQuery } from './query/get-user-info.query';
 
 // Scope.REQUEST, Scope.TRANSIENT
 @ApiTags('유저 API')
 @Controller({ path: 'v1/users', scope: Scope.DEFAULT })
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(private commandBus: CommandBus, private queryBus: QueryBus) {}
 
-  // @UseFilters(new HttpExceptionFilter())
   @Post()
-  async create(@Body() createUserDto: CreateUserDto): Promise<void> {
-    const { nickname, email, password } = createUserDto;
+  async createUser(@Body() dto: CreateUserDto): Promise<void> {
+    const { nickname, email, password } = dto;
 
-    // await this.usersService.createUser(createUserDto);
-    await this.usersService.createUser(nickname, email, password);
+    const command = new CreateUserCommand(nickname, email, password);
+
+    return this.commandBus.execute(command);
   }
 
   @Post('/email-verify')
@@ -65,7 +68,10 @@ export class UsersController {
     @Headers() headers: any,
     @Param('email', ValidationPipe) email: string,
   ): Promise<UserInfo> {
-    return this.usersService.getUserInfo(email);
+    const getUserInfoQuery = new GetUserInfoQuery(email);
+
+    return this.queryBus.execute(getUserInfoQuery);
+    // return this.usersService.getUserInfo(email);
   }
 
   @HttpCode(202) // Accepted는 요청이 성공적으로 접수되었으나, 아직 해당 요청에 대해 처리 중이거나 처리 시작 전임을 의미합니다. 요청이 처리 중 실패할 수도 있기 때문에 요청은 실행될 수도 실행되지 않을수도 있습니다. 이 상태 코드는 비확약적, 즉 HTTP가 나중에 요청 처리 결과를 나타내는 비동기 응답을 보낼 방법이 없다는 것을 의미합니다. 이는 다른 프로세스나 서버가 요청을 처리하는 경우 또는 일괄 처리를 위한 것

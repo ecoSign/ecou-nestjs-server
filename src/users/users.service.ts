@@ -28,49 +28,9 @@ export class UsersService {
   ) {}
 
   async createUser(nickname: string, email: string, password: string) {
-    const isUserExist = await this.checkUserExists(email);
-    if (isUserExist) {
-      throw new UnprocessableEntityException(
-        '해당 이메일로는 가입할 수 없습니다.',
-      );
-    }
-
     const signupVerifyToken = uuid.v1();
 
-    await this.saveUserUsingTransaction(
-      nickname,
-      email,
-      password,
-      signupVerifyToken,
-    );
     await this.sendMemberJoinEmail(email, signupVerifyToken);
-  }
-
-  private async checkUserExists(emailAddress: string): Promise<boolean> {
-    const user = await this.usersRepository.findOne({
-      where: {
-        email: emailAddress,
-      },
-    });
-    return user !== undefined;
-  }
-
-  private async saveUserUsingTransaction(
-    nickname: string,
-    email: string,
-    password: string,
-    signupVerifyToken: string,
-  ) {
-    await this.connection.transaction(async (manager) => {
-      const user = new UserEntity();
-      user.id = ulid();
-      user.nickname = nickname;
-      user.email = email;
-      user.password = password;
-      user.signupVerifyToken = signupVerifyToken;
-
-      await manager.save(user);
-    });
   }
 
   private async sendMemberJoinEmail(email: string, signupVerifyToken: string) {
