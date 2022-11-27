@@ -5,9 +5,6 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { APP_FILTER } from '@nestjs/core';
-import { HttpExceptionFilter } from './exception/http-exception.filter';
-import { AllExceptionsFilter } from './exception/all-exceptions.filter';
 import { PostsModule } from './posts/posts.module';
 import emailConfig from './config/emailConfig';
 import { validationSchema } from './config/validationSchema';
@@ -37,14 +34,10 @@ import { ExceptionModule } from './exception/exception.module';
     PostsModule,
     PostReviewsModule,
     ExceptionModule,
+    // LoggingModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    ConfigService,
-    Logger,
-    // { provide: APP_FILTER, useClass: AllExceptionsFilter },
-  ],
+  providers: [AppService, ConfigService, Logger],
 })
 
 // export class AppModule {}
