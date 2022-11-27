@@ -13,6 +13,7 @@ import { PostReviewsModule } from './post-reviews/post-reviews.module';
 import ormConfig from './ormConfig';
 import authConfig from './config/authConfig';
 import { ExceptionModule } from './exception/exception.module';
+import { BatchModule } from './batch/batch.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ExceptionModule } from './exception/exception.module';
     PostsModule,
     PostReviewsModule,
     ExceptionModule,
+    // BatchModule,
     // LoggingModule,
   ],
   controllers: [AppController],
