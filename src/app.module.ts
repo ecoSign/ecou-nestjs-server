@@ -15,13 +15,14 @@ import { validationSchema } from './config/validationSchema';
 import { RedisCacheModule } from './middlewares/redis-cache.module';
 import { PostReviewsModule } from './post-reviews/post-reviews.module';
 import ormConfig from './ormConfig';
+import authConfig from './config/authConfig';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: `.env`,
       // envFilePath: [`${__dirname}/config/env/.${process.env.NODE_ENV}.env`],
-      load: [emailConfig],
+      load: [emailConfig, authConfig],
       isGlobal: true, // 모든 모듈에서 env 사용가능하도록
       validationSchema,
       // process.env.NODE_ENV === 'production'
@@ -34,7 +35,6 @@ import ormConfig from './ormConfig';
     TypeOrmModule.forRoot(ormConfig),
     UsersModule,
     PostsModule,
-    EmailModule,
     PostReviewsModule,
   ],
   controllers: [AppController],
