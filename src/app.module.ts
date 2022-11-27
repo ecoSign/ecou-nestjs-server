@@ -6,8 +6,8 @@ import { UsersModule } from './users/users.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_FILTER } from '@nestjs/core';
-import { HttpExceptionFilter } from './exceptions/http-exception.filter';
-import { AllExceptionsFilter } from './exceptions/all-exceptions.filter';
+import { HttpExceptionFilter } from './exception/http-exception.filter';
+import { AllExceptionsFilter } from './exception/all-exceptions.filter';
 import { PostsModule } from './posts/posts.module';
 import emailConfig from './config/emailConfig';
 import { validationSchema } from './config/validationSchema';
@@ -15,6 +15,7 @@ import { RedisCacheModule } from './middlewares/redis-cache.module';
 import { PostReviewsModule } from './post-reviews/post-reviews.module';
 import ormConfig from './ormConfig';
 import authConfig from './config/authConfig';
+import { ExceptionModule } from './exception/exception.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import authConfig from './config/authConfig';
     UsersModule,
     PostsModule,
     PostReviewsModule,
+    ExceptionModule,
   ],
   controllers: [AppController],
   providers: [

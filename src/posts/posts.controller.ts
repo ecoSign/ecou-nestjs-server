@@ -12,6 +12,7 @@ import {
   DefaultValuePipe,
   UploadedFile,
   UploadedFiles,
+  BadRequestException,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -52,6 +53,9 @@ export class PostsController {
     )
     id: string,
   ) {
+    if (+id < 1) {
+      throw new BadRequestException('id는 0보다 큰 정수여야 합니다');
+    }
     return this.postsService.findOne(+id);
   }
 
